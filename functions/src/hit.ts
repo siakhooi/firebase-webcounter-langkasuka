@@ -6,6 +6,7 @@ import {
   FIREBASE_COLLECTION_COUNTER_ALL_TIME,
   FIREBASE_COLLECTION_HIT_LOG,
 } from "./web-counter-config";
+import {createBadge, createText} from "./generateOutput";
 
 const firestore = new Firestore({
   projectId: FIREBASE_PROJECT_ID,
@@ -27,7 +28,9 @@ export const hit = onRequest(async (request, response) => {
     const count = await getCount(counterId, currentTime, docId);
 
     if (outputType === "text") {
-      response.status(200).send(String(count));
+      response.status(200).send(createText(count));
+    } else if (outputType === "badge") {
+      response.status(200).setHeader("Content-Type", "image/svg+xml").send(createBadge(count));
     } else {
       response.status(500).end();
     }
@@ -41,11 +44,11 @@ function validateParameters(counterId: string, outputType: string) {
     return {status: false, code: 400, message: "parameter counter is not defined!"};
   } else if (outputType === UNDEFINED) {
     return {status: false, code: 400, message: "parameter outputtype is not defined!"};
-  } else if (outputType !== "text") {
+  } else if (outputType !== "text" && outputType !== "badge") {
     return {
       status: false,
       code: 400,
-      message: "parameter outputtype is not supported, allow 'text'! (found " + outputType + ")",
+      message: "parameter outputtype is not supported, allow 'text' or 'badge' ! (found " + outputType + ")",
     };
   } else {
     return {status: true, code: 200, message: "OK"};
