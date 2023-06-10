@@ -6,7 +6,7 @@ import {
   FIREBASE_COLLECTION_COUNTER_ALL_TIME,
   FIREBASE_COLLECTION_HIT_LOG,
 } from "./web-counter-config";
-import {createBadge, createText} from "./generateOutput";
+import {createBadge, createText, geteTag} from "./generateOutput";
 
 const firestore = new Firestore({
   projectId: FIREBASE_PROJECT_ID,
@@ -28,9 +28,22 @@ export const hit = onRequest(async (request, response) => {
     const count = await getCount(counterId, currentTime, docId);
 
     if (outputType === "text") {
-      response.status(200).send(createText(count));
+      const content=createText(count);
+      const etag=geteTag(content);
+      response
+        .status(200)
+        .setHeader("Cache-Control", "max-age=0, no-cache, no-store, must-revalidate")
+        .setHeader("etag", etag)
+        .send(content);
     } else if (outputType === "badge") {
-      response.status(200).setHeader("Content-Type", "image/svg+xml").send(createBadge(count));
+      const content=createBadge(count);
+      const etag=geteTag(content);
+      response
+        .status(200)
+        .setHeader("Cache-Control", "max-age=0, no-cache, no-store, must-revalidate")
+        .setHeader("Content-Type", "image/svg+xml")
+        .setHeader("etag", etag)
+        .send(content);
     } else {
       response.status(500).end();
     }

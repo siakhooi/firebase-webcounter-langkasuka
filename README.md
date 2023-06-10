@@ -43,3 +43,7 @@ Langkasuka was an ancient South East Asia kingdom that the name means, Land with
     - if you have gh cli, you can just run this command: `base64 web-counter-langkasuka-730b5192351f.json | gh secret set GOOGLE_APPLICATION_CREDENTIALS_BASE64`
   - remove the json file locally, for security purposes.
 - commit changes to Github and check that the workflow run successfully.
+
+## Badges
+
+![count](https://hit-tztugwlsja-uc.a.run.app/?outputtype=badge&counter=github.com-firebase-webcounter-langkasuka)

@@ -1,5 +1,5 @@
 import {makeBadge, Format} from "badge-maker";
-
+import {createHash} from "node:crypto";
 
 export function createBadge(count: number) {
   const format: Format = {
@@ -12,7 +12,12 @@ export function createBadge(count: number) {
   return makeBadge(format);
 }
 
-
 export function createText(count: number) {
   return String(count);
+}
+
+export function geteTag(content: string) {
+  const hash = createHash("sha256");
+  hash.update(content);
+  return hash.digest("hex");
 }
