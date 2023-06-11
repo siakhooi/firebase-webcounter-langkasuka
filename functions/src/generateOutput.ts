@@ -16,6 +16,10 @@ export function createText(count: number) {
   return String(count);
 }
 
+export function createJavascript(count: number) {
+  return "var LANGKASUKA_WEBCOUNTER={count: "+count+"}";
+}
+
 export function geteTag(content: string) {
   const hash = createHash("sha256");
   hash.update(content);
