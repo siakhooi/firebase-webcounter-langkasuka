@@ -50,7 +50,7 @@ function show_counter(){
 Javascript output type will return a javascript file contains the following line, which front-end can use it for more advance formatting.
 
 ```javascript
-var LANGKASUKA_WEBCOUNTER = { count: nnn }
+var LANGKASUKA_WEBCOUNTER = { count: nnn };
 ```
 
 ## How to Deploy
@@ -91,4 +91,16 @@ var LANGKASUKA_WEBCOUNTER = { count: nnn }
 
 ## Badges
 
+![GitHub](https://img.shields.io/github/license/siakhooi/firebase-webcounter-langkasuka?logo=github)
+![GitHub last commit](https://img.shields.io/github/last-commit/siakhooi/firebase-webcounter-langkasuka?logo=github)
+![GitHub top language](https://img.shields.io/github/languages/top/siakhooi/firebase-webcounter-langkasuka?logo=github)
+![GitHub language count](https://img.shields.io/github/languages/count/siakhooi/firebase-webcounter-langkasuka?logo=github)
+![Lines of code](https://img.shields.io/tokei/lines/github/siakhooi/firebase-webcounter-langkasuka?logo=github)
+![GitHub repo size](https://img.shields.io/github/repo-size/siakhooi/firebase-webcounter-langkasuka?logo=github)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/siakhooi/firebase-webcounter-langkasuka?logo=github)
+![Workflow](https://img.shields.io/badge/Workflow-github-purple)
+![workflow](https://github.com/siakhooi/firebase-webcounter-langkasuka/actions/workflows/deploy-firebase.yaml/badge.svg)
+
+[![Generic badge](https://img.shields.io/badge/Funding-BuyMeACoffee-33cb56.svg)](https://www.buymeacoffee.com/siakhooi)
+[![Generic badge](https://img.shields.io/badge/Funding-Ko%20Fi-33cb56.svg)](https://ko-fi.com/siakhooi)
 ![count](https://hit-tztugwlsja-uc.a.run.app/?outputtype=badge&counter=ghmd-firebase-webcounter)
