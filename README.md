@@ -74,6 +74,7 @@ var LANGKASUKA_WEBCOUNTER = { count: nnn };
 - run the following commands: (you need to install firebase cli, <https://firebase.google.com/docs/cli/>)
   - `firebase login`
   - `firebase deploy`
+    - A new URL resembling `https://hit-xxxxxxx.a.run.app` will be generated and displayed in the console output. That is the url for your webcounter.
 
 ### Setup Github Actions if you fork this repo
 
@@ -83,8 +84,8 @@ var LANGKASUKA_WEBCOUNTER = { count: nnn };
   - In the service account `web-counter-langkasuka@appspot.gserviceaccount.com` > action, choose "Manage Key"
   - choose Add Key > Create new Key
   - choose Key Type = json and click Create
-  - A json file will be downloaded, the name of file is like `web-counter-langkasuka-xxxxxxxxxx.json`
-  - base64 encode the file and upload to github as secret name: `GOOGLE_APPLICATION_CREDENTIALS_BASE64`
+  - A json file will be downloaded, the name of file resembling `web-counter-langkasuka-xxxxxxxxxx.json`
+  - encodes the file with base64 and upload to github as secret name: `GOOGLE_APPLICATION_CREDENTIALS_BASE64`
     - if you have gh cli, you can just run this command: `base64 web-counter-langkasuka-xxxxxxxxxx.json | gh secret set GOOGLE_APPLICATION_CREDENTIALS_BASE64`
   - remove the json file locally, for security purposes.
 - commit changes to Github and check that the workflow run successfully.
