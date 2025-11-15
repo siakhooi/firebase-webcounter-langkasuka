@@ -15,4 +15,5 @@ updates:
     directory: "/functions" # Path to your Cloud Functions directory
     schedule:
       interval: "weekly"
-    # Optional: specify target branches, ignore dependencies, etc.
+    assignees:
+      - "siakhooi"

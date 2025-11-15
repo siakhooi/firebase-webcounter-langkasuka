@@ -8,6 +8,8 @@ npm-build:
 	cd functions && npm run build
 all: npm-install npm-lint npm-build
 
+build:
+	.github/bin/build.sh
 install-firebase:
 	npm install -g firebase-tools
 login:
