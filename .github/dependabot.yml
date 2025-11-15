@@ -11,3 +11,8 @@ updates:
       interval: "weekly"
     assignees:
       - "siakhooi"
+  - package-ecosystem: "npm" # For Node.js dependencies in Cloud Functions
+    directory: "/functions" # Path to your Cloud Functions directory
+    schedule:
+      interval: "weekly"
+    # Optional: specify target branches, ignore dependencies, etc.
