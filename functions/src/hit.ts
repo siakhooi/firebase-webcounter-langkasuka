@@ -5,9 +5,9 @@ import {
   FIREBASE_PROJECT_ID,
   FIREBASE_COLLECTION_COUNTER_ALL_TIME,
   FIREBASE_COLLECTION_HIT_LOG,
-} from "./web-counter-config";
-import {getOutput, geteTag, getContentType} from "./lib/generateOutput";
-import {validateParameters} from "./lib/validateParameters";
+} from "./web-counter-config.js";
+import {getOutput, geteTag, getContentType} from "./lib/generateOutput.js";
+import {validateParameters} from "./lib/validateParameters.js";
 
 const firestore = new Firestore({
   projectId: FIREBASE_PROJECT_ID,

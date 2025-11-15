@@ -1,6 +1,6 @@
 import {makeBadge, Format} from "badge-maker";
 import {createHash} from "node:crypto";
-import {JAVASCRIPT_VARIABLE} from "../web-counter-config";
+import {JAVASCRIPT_VARIABLE} from "../web-counter-config.js";
 
 function createBadge(count: number) {
   const format: Format = {

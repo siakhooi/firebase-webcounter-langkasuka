@@ -8,7 +8,7 @@ import {
   FIREBASE_COLLECTION_COUNTER_YYYY,
   FIREBASE_COLLECTION_COUNTER_YYYYMM,
   FIREBASE_COLLECTION_COUNTER_YYYYMMDD,
-} from "./web-counter-config";
+} from "./web-counter-config.js";
 
 const firestore = new Firestore({
   projectId: FIREBASE_PROJECT_ID,

@@ -1,4 +1,4 @@
-import {hit} from "./hit";
-import {generateStatistics} from "./generate-statistics";
+import {hit} from "./hit.js";
+import {generateStatistics} from "./generate-statistics.js";
 
 export {hit, generateStatistics};
