@@ -12,7 +12,6 @@ import {
 
 const firestore = new Firestore({
   projectId: FIREBASE_PROJECT_ID,
-  timestampsInSnapshots: true,
 });
 
 async function updateStatCollection(

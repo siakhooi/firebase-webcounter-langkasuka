@@ -1,4 +1,4 @@
-import {onRequest} from "firebase-functions/v2/https";
+import {onRequest, Request} from "firebase-functions/v2/https";
 import * as logger from "firebase-functions/logger";
 import {Firestore} from "firebase-admin/firestore";
 import {
@@ -11,10 +11,9 @@ import {validateParameters} from "./lib/validateParameters";
 
 const firestore = new Firestore({
   projectId: FIREBASE_PROJECT_ID,
-  timestampsInSnapshots: true,
 });
 
-export const hit = onRequest(async (request, response) => {
+export const hit = onRequest(async (request: Request, response) => {
   const counterId: string = <string>request.query.counter;
   const outputType: string = <string>request.query.outputtype;
 
@@ -69,7 +68,7 @@ async function getCount(counterId: string, currentTime: number, docId: string) {
   return count;
 }
 
-async function createLog(counterId: string, currentTime: number, request: any) {
+async function createLog(counterId: string, currentTime: number, request: Request) {
   const COLLECTION_LOG = FIREBASE_COLLECTION_HIT_LOG;
   const docRef = await firestore.collection(COLLECTION_LOG).add({
     counter: counterId,
