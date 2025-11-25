@@ -12,3 +12,10 @@ jobs:
         with:
           node-version: 20
       - run: .github/bin/build.sh
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v6
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - run: .github/bin/qlty-coverage-publish.sh
+        env:
+          QLTY_COVERAGE_TOKEN: ${{ secrets.QLTY_COVERAGE_TOKEN }}
