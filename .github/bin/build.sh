@@ -9,4 +9,5 @@ cd functions || {
 
 npm ci
 npm run lint
+npm run test:coverage
 npm run build

@@ -4,7 +4,7 @@ import importPlugin from "eslint-plugin-import";
 
 export default tseslint.config(
   {
-    ignores: ["lib/**/*", "eslint.config.mjs"],
+    ignores: ["lib/**/*", "eslint.config.mjs", "coverage/**/*", "jest.config.mjs"],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
