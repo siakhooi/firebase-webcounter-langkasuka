@@ -90,6 +90,11 @@ var LANGKASUKA_WEBCOUNTER = { count: nnn };
   - remove the json file locally, for security purposes.
 - commit changes to Github and check that the workflow run successfully.
 
+## Quality
+
+- https://sonarcloud.io/project/overview?id=siakhooi_firebase-webcounter-langkasuka
+- https://qlty.sh/gh/siakhooi/projects/firebase-webcounter-langkasuka
+
 ## Badges
 
 ![GitHub](https://img.shields.io/github/license/siakhooi/firebase-webcounter-langkasuka?logo=github)
@@ -101,6 +106,30 @@ var LANGKASUKA_WEBCOUNTER = { count: nnn };
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/siakhooi/firebase-webcounter-langkasuka?logo=github)
 ![Workflow](https://img.shields.io/badge/Workflow-github-purple)
 ![workflow](https://github.com/siakhooi/firebase-webcounter-langkasuka/actions/workflows/deploy-firebase.yaml/badge.svg)
+
+![Quality-Qlty](https://img.shields.io/badge/Quality-Qlty-purple)
+[![Maintainability](https://qlty.sh/gh/siakhooi/projects/firebase-webcounter-langkasuka/maintainability.svg)](https://qlty.sh/gh/siakhooi/projects/firebase-webcounter-langkasuka)
+[![Code Coverage](https://qlty.sh/gh/siakhooi/projects/firebase-webcounter-langkasuka/coverage.svg)](https://qlty.sh/gh/siakhooi/projects/firebase-webcounter-langkasuka)
+
+![Quality-Sonar](https://img.shields.io/badge/Quality-SonarCloud-purple)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=siakhooi_firebase-webcounter-langkasuka&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=siakhooi_firebase-webcounter-langkasuka)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=siakhooi_firebase-webcounter-langkasuka&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=siakhooi_firebase-webcounter-langkasuka)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=siakhooi_firebase-webcounter-langkasuka&metric=bugs)](https://sonarcloud.io/summary/new_code?id=siakhooi_firebase-webcounter-langkasuka)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=siakhooi_firebase-webcounter-langkasuka&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=siakhooi_firebase-webcounter-langkasuka)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=siakhooi_firebase-webcounter-langkasuka&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=siakhooi_firebase-webcounter-langkasuka)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=siakhooi_firebase-webcounter-langkasuka&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=siakhooi_firebase-webcounter-langkasuka)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=siakhooi_firebase-webcounter-langkasuka&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=siakhooi_firebase-webcounter-langkasuka)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=siakhooi_firebase-webcounter-langkasuka&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=siakhooi_firebase-webcounter-langkasuka)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=siakhooi_firebase-webcounter-langkasuka&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=siakhooi_firebase-webcounter-langkasuka)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=siakhooi_firebase-webcounter-langkasuka&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=siakhooi_firebase-webcounter-langkasuka)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=siakhooi_firebase-webcounter-langkasuka&metric=coverage)](https://sonarcloud.io/summary/new_code?id=siakhooi_firebase-webcounter-langkasuka)
+![Sonar Violations (short format)](https://img.shields.io/sonar/violations/siakhooi_firebase-webcounter-langkasuka?server=https%3A%2F%2Fsonarcloud.io)
+![Sonar Violations (short format)](https://img.shields.io/sonar/blocker_violations/siakhooi_firebase-webcounter-langkasuka?server=https%3A%2F%2Fsonarcloud.io)
+![Sonar Violations (short format)](https://img.shields.io/sonar/critical_violations/siakhooi_firebase-webcounter-langkasuka?server=https%3A%2F%2Fsonarcloud.io)
+![Sonar Violations (short format)](https://img.shields.io/sonar/major_violations/siakhooi_firebase-webcounter-langkasuka?server=https%3A%2F%2Fsonarcloud.io)
+![Sonar Violations (short format)](https://img.shields.io/sonar/minor_violations/siakhooi_firebase-webcounter-langkasuka?server=https%3A%2F%2Fsonarcloud.io)
+![Sonar Violations (short format)](https://img.shields.io/sonar/info_violations/siakhooi_firebase-webcounter-langkasuka?server=https%3A%2F%2Fsonarcloud.io)
+![Sonar Violations (long format)](https://img.shields.io/sonar/violations/siakhooi_firebase-webcounter-langkasuka?format=long&server=http%3A%2F%2Fsonarcloud.io)
 
 [![Generic badge](https://img.shields.io/badge/Funding-BuyMeACoffee-33cb56.svg)](https://www.buymeacoffee.com/siakhooi)
 [![Generic badge](https://img.shields.io/badge/Funding-Ko%20Fi-33cb56.svg)](https://ko-fi.com/siakhooi)
