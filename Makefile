@@ -2,11 +2,13 @@ clean:
 	cd functions && rm -rf node_modules lib
 npm-install:
 	cd functions && npm install
+npm-test:
+	cd functions && npm run test:coverage
 npm-lint:
 	cd functions && npm run lint
 npm-build:
 	cd functions && npm run build
-all: npm-install npm-lint npm-build
+all: npm-install npm-lint npm-test npm-build
 
 build:
 	.github/bin/build.sh
