@@ -89,6 +89,7 @@ var LANGKASUKA_WEBCOUNTER = { count: nnn };
     - if you have gh cli, you can just run this command: `base64 web-counter-langkasuka-xxxxxxxxxx.json | gh secret set GOOGLE_APPLICATION_CREDENTIALS_BASE64`
   - remove the json file locally, for security purposes.
 - commit changes to Github and check that the workflow run successfully.
+- create release so that github action can deploy to firebase.
 
 ## Quality
 

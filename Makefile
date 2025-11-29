@@ -26,3 +26,6 @@ npm-out:
 	cd functions && npm outdated
 npm-up:
 	cd functions && npm update
+
+release:
+	.github/bin/create-release.sh

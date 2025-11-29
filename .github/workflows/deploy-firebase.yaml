@@ -1,8 +1,7 @@
 name: Deploy to Firebase
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [created]
 jobs:
   main:
     runs-on: ubuntu-latest
