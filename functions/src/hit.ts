@@ -49,13 +49,7 @@ async function getCount(counterId: string, currentTime: number, docId: string) {
   const counterData = (await firestore.collection(CounterCollection).doc(counterId).get()).data();
 
   let count = 1;
-  if (counterData !== undefined) {
-    count = counterData.count + 1;
-    await firestore
-      .collection(CounterCollection)
-      .doc(counterId)
-      .update({count: count, modifiedAt: currentTime, modifiedBy: docId});
-  } else {
+  if (counterData === undefined) {
     await firestore.collection(CounterCollection).doc(counterId).set({
       counter: counterId,
       count: count,
@@ -64,6 +58,12 @@ async function getCount(counterId: string, currentTime: number, docId: string) {
       modifiedBy: docId,
       modifiedAt: currentTime,
     });
+  } else {
+    count = counterData.count + 1;
+    await firestore
+      .collection(CounterCollection)
+      .doc(counterId)
+      .update({count: count, modifiedAt: currentTime, modifiedBy: docId});
   }
   return count;
 }

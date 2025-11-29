@@ -26,13 +26,7 @@ async function updateStatCollection(
   const counterData = (await firestore.collection(collectionName).doc(statKey).get()).data();
 
   let count = 1;
-  if (counterData !== undefined) {
-    count = counterData.count + 1;
-    await firestore
-      .collection(collectionName)
-      .doc(statKey)
-      .update({count: count, modifiedBy: docId, modifiedAt: currentTime});
-  } else {
+  if (counterData === undefined) {
     await firestore.collection(collectionName).doc(statKey).set({
       counter: counter,
       key: key,
@@ -42,6 +36,12 @@ async function updateStatCollection(
       createdAt: currentTime,
       modifiedAt: currentTime,
     });
+  } else {
+    count = counterData.count + 1;
+    await firestore
+      .collection(collectionName)
+      .doc(statKey)
+      .update({count: count, modifiedBy: docId, modifiedAt: currentTime});
   }
 }
 
