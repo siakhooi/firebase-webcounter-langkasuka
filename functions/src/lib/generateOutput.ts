@@ -13,16 +13,13 @@ function createBadge(count: number) {
   return makeBadge(format);
 }
 
-function createText(count: number) {
-  return String(count);
-}
 
 function createJavascript(count: number) {
   return "var " + JAVASCRIPT_VARIABLE + "={count: " + count + "}";
 }
 
 export function getOutput(outputType: string, count: number): string {
-  if (outputType === "text") return createText(count);
+  if (outputType === "text") return String(count);
   else if (outputType === "badge") return createBadge(count);
   else if (outputType === "javascript") return createJavascript(count);
 

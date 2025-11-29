@@ -35,9 +35,6 @@ const mockDoc = jest.fn<any>();
 const mockCollection = jest.fn<any>();
 
 class MockFirestore {
-  constructor() {
-    // Mock implementation
-  }
 
   collection(name: string) {
     mockCollection(name);
