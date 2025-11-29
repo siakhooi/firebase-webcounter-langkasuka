@@ -23,7 +23,9 @@ jobs:
           QLTY_COVERAGE_TOKEN: ${{ secrets.QLTY_COVERAGE_TOKEN }}
       - run: npm install -g firebase-tools
       - shell: bash
-        run: echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_BASE64 }}" | base64 --decode > credentials.json
+        env:
+          CREDENTIALS_BASE64: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_BASE64 }}
+        run: echo "$CREDENTIALS_BASE64" | base64 --decode > credentials.json
       - run: echo "GOOGLE_APPLICATION_CREDENTIALS=./credentials.json" >> $GITHUB_ENV
       - shell: bash
         run: firebase deploy --non-interactive

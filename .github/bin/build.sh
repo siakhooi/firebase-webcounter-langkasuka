@@ -7,7 +7,7 @@ cd functions || {
 	exit 1
 }
 
-npm ci
+npm ci --ignore-scripts
 npm run lint
 npm run test:coverage
 npm run build
