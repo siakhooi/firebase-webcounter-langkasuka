@@ -68,7 +68,7 @@ describe("hit function", () => {
       headers: {},
       method: "GET",
       originalUrl: "/hit",
-      ip: "127.0.0.1",
+      ip: "198.51.100.1", // Using TEST-NET-2 documentation IP (RFC 5737)
     };
 
     mockValidateParameters.mockReturnValue({
@@ -92,6 +92,7 @@ describe("hit function", () => {
       // @ts-expect-error - Mock function requires any type for flexibility
       mockAdd.mockResolvedValue({id: "log-id-123"});
 
+      // Type assertion needed: mockRequest is Partial<Request> but hit() expects Request
       await hit(mockRequest as Request, mockResponse);
 
       expect(mockResponse.status).toHaveBeenCalledWith(200);
@@ -115,6 +116,7 @@ describe("hit function", () => {
       // @ts-expect-error - Mock function requires any type for flexibility
       mockAdd.mockResolvedValue({id: "log-id-456"});
 
+      // Type assertion needed: mockRequest is Partial<Request> but hit() expects Request
       await hit(mockRequest as Request, mockResponse);
 
       expect(mockResponse.status).toHaveBeenCalledWith(200);
@@ -131,6 +133,7 @@ describe("hit function", () => {
         message: "parameter counter is not defined!",
       });
 
+      // Type assertion needed: mockRequest is Partial<Request> but hit() expects Request
       await hit(mockRequest as Request, mockResponse);
 
       expect(mockResponse.status).toHaveBeenCalledWith(400);
@@ -149,6 +152,7 @@ describe("hit function", () => {
 
       mockGetContentType.mockReturnValue("application/javascript");
 
+      // Type assertion needed: mockRequest is Partial<Request> but hit() expects Request
       await hit(mockRequest as Request, mockResponse);
 
       expect(mockResponse.status).toHaveBeenCalledWith(200);
@@ -166,6 +170,7 @@ describe("hit function", () => {
       // @ts-expect-error - Mock function requires any type for flexibility
       mockAdd.mockResolvedValue({id: "log-id-123"});
 
+      // Type assertion needed: mockRequest is Partial<Request> but hit() expects Request
       await hit(mockRequest as Request, mockResponse);
 
       expect(mockSet).toHaveBeenCalled();
@@ -189,6 +194,7 @@ describe("hit function", () => {
       // @ts-expect-error - Mock function requires any type for flexibility
       mockAdd.mockResolvedValue({id: "log-id-456"});
 
+      // Type assertion needed: mockRequest is Partial<Request> but hit() expects Request
       await hit(mockRequest as Request, mockResponse);
 
       expect(mockUpdate).toHaveBeenCalled();
@@ -206,6 +212,7 @@ describe("hit function", () => {
       // @ts-expect-error - Mock function requires any type for flexibility
       mockAdd.mockResolvedValue({id: "log-id"});
 
+      // Type assertion needed: mockRequest is Partial<Request> but hit() expects Request
       await hit(mockRequest as Request, mockResponse);
 
       const collectionCalls = mockCollection.mock.calls.map((call: any[]) => call[0]);
@@ -221,7 +228,7 @@ describe("hit function", () => {
         headers: {"user-agent": "test-agent"},
         method: "POST",
         originalUrl: "/hit?counter=test",
-        ip: "192.168.1.1",
+        ip: "203.0.113.1", // Using TEST-NET-3 documentation IP (RFC 5737)
       };
       // @ts-expect-error - Mock function requires any type for flexibility
       mockGet.mockResolvedValue({data: () => undefined});
@@ -230,13 +237,14 @@ describe("hit function", () => {
       // @ts-expect-error - Mock function requires any type for flexibility
       mockAdd.mockResolvedValue({id: "log-id"});
 
+      // Type assertion needed: mockRequest is Partial<Request> but hit() expects Request
       await hit(mockRequest as Request, mockResponse);
 
       expect(mockAdd).toHaveBeenCalled();
       const addArgs = mockAdd.mock.calls[0][0] as any;
       expect(addArgs.counter).toBe("test-counter");
       expect(addArgs.method).toBe("POST");
-      expect(addArgs.ip).toBe("192.168.1.1");
+      expect(addArgs.ip).toBe("203.0.113.1");
     });
 
     test("should log with firebase logger", async () => {
@@ -248,6 +256,7 @@ describe("hit function", () => {
       // @ts-expect-error - Mock function requires any type for flexibility
       mockAdd.mockResolvedValue({id: "log-id"});
 
+      // Type assertion needed: mockRequest is Partial<Request> but hit() expects Request
       await hit(mockRequest as Request, mockResponse);
 
       expect(mockInfo).toHaveBeenCalledWith("Hit", expect.objectContaining({
@@ -267,6 +276,7 @@ describe("hit function", () => {
       // @ts-expect-error - Mock function requires any type for flexibility
       mockAdd.mockResolvedValue({id: "log-id"});
 
+      // Type assertion needed: mockRequest is Partial<Request> but hit() expects Request
       await hit(mockRequest as Request, mockResponse);
 
       expect(mockResponse.setHeader).toHaveBeenCalledWith(
@@ -284,6 +294,7 @@ describe("hit function", () => {
       // @ts-expect-error - Mock function requires any type for flexibility
       mockAdd.mockResolvedValue({id: "log-id"});
 
+      // Type assertion needed: mockRequest is Partial<Request> but hit() expects Request
       await hit(mockRequest as Request, mockResponse);
 
       expect(mockGeteTag).toHaveBeenCalledWith("test-output");
@@ -301,6 +312,7 @@ describe("hit function", () => {
 
       mockGetContentType.mockReturnValue("image/svg+xml");
 
+      // Type assertion needed: mockRequest is Partial<Request> but hit() expects Request
       await hit(mockRequest as Request, mockResponse);
 
       expect(mockGetContentType).toHaveBeenCalledWith("badge");
@@ -318,6 +330,7 @@ describe("hit function", () => {
       // @ts-expect-error - Mock function requires any type for flexibility
       mockAdd.mockResolvedValue({id: "log-id"});
 
+      // Type assertion needed: mockRequest is Partial<Request> but hit() expects Request
       await hit(mockRequest as Request, mockResponse);
 
       expect(mockDoc).toHaveBeenCalledWith("counter-with_special.chars");
@@ -337,6 +350,7 @@ describe("hit function", () => {
       // @ts-expect-error - Mock function requires any type for flexibility
       mockAdd.mockResolvedValue({id: "log-id"});
 
+      // Type assertion needed: mockRequest is Partial<Request> but hit() expects Request
       await hit(mockRequest as Request, mockResponse);
 
       const updateArgs = mockUpdate.mock.calls[0][0] as any;
@@ -357,6 +371,7 @@ describe("hit function", () => {
       // @ts-expect-error - Mock function requires any type for flexibility
       mockAdd.mockResolvedValue({id: "log-id"});
 
+      // Type assertion needed: mockRequest is Partial<Request> but hit() expects Request
       await hit(mockRequest as Request, mockResponse);
 
       const updateArgs = mockUpdate.mock.calls[0][0] as any;
