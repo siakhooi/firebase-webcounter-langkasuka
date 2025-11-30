@@ -3,26 +3,12 @@ import {validateParameters} from "../validateParameters.js";
 
 describe("validateParameters", () => {
   describe("counterId validation", () => {
-    test("should return error when counterId is empty string", () => {
-      const result = validateParameters("", "text");
-      expect(result).toEqual({
-        status: false,
-        code: 400,
-        message: "parameter counter is not defined!",
-      });
-    });
-
-    test("should return error when counterId is undefined", () => {
-      const result = validateParameters(undefined as any, "text");
-      expect(result).toEqual({
-        status: false,
-        code: 400,
-        message: "parameter counter is not defined!",
-      });
-    });
-
-    test("should return error when counterId is null", () => {
-      const result = validateParameters(null as any, "text");
+    test.each([
+      ["empty string", ""],
+      ["undefined", undefined as any],
+      ["null", null as any],
+    ])("should return error when counterId is %s", (_description, counterId) => {
+      const result = validateParameters(counterId, "text");
       expect(result).toEqual({
         status: false,
         code: 400,
@@ -32,110 +18,47 @@ describe("validateParameters", () => {
   });
 
   describe("outputType validation", () => {
-    test("should return error when outputType is empty string", () => {
-      const result = validateParameters("counter123", "");
-      expect(result).toEqual({
-        status: false,
-        code: 400,
-        message: "parameter outputtype is not defined!",
+    describe("not defined", () => {
+      test.each([
+        ["empty string", ""],
+        ["undefined", undefined as any],
+        ["null", null as any],
+      ])("should return error when outputType is %s", (_description, outputType) => {
+        const result = validateParameters("counter123", outputType);
+        expect(result).toEqual({
+          status: false,
+          code: 400,
+          message: "parameter outputtype is not defined!",
+        });
       });
     });
 
-    test("should return error when outputType is undefined", () => {
-      const result = validateParameters("counter123", undefined as any);
-      expect(result).toEqual({
-        status: false,
-        code: 400,
-        message: "parameter outputtype is not defined!",
-      });
-    });
-
-    test("should return error when outputType is null", () => {
-      const result = validateParameters("counter123", null as any);
-      expect(result).toEqual({
-        status: false,
-        code: 400,
-        message: "parameter outputtype is not defined!",
-      });
-    });
-
-    test("should return error when outputType is invalid", () => {
-      const result = validateParameters("counter123", "json");
-      expect(result).toEqual({
-        status: false,
-        code: 400,
-        message: "parameter outputtype is not supported! (found json)",
-      });
-    });
-
-    test("should return error when outputType is xml", () => {
-      const result = validateParameters("counter123", "xml");
-      expect(result).toEqual({
-        status: false,
-        code: 400,
-        message: "parameter outputtype is not supported! (found xml)",
-      });
-    });
-
-    test("should return error when outputType has incorrect case", () => {
-      const result = validateParameters("counter123", "TEXT");
-      expect(result).toEqual({
-        status: false,
-        code: 400,
-        message: "parameter outputtype is not supported! (found TEXT)",
-      });
-    });
-
-    test("should return error when outputType has spaces", () => {
-      const result = validateParameters("counter123", " text ");
-      expect(result).toEqual({
-        status: false,
-        code: 400,
-        message: "parameter outputtype is not supported! (found  text )",
+    describe("not supported", () => {
+      test.each([
+        ["invalid (json)", "json"],
+        ["xml", "xml"],
+        ["incorrect case", "TEXT"],
+        ["spaces", " text "],
+      ])("should return error when outputType is %s", (_description, outputType) => {
+        const result = validateParameters("counter123", outputType);
+        expect(result).toEqual({
+          status: false,
+          code: 400,
+          message: `parameter outputtype is not supported! (found ${outputType})`,
+        });
       });
     });
   });
 
   describe("valid parameters", () => {
-    test("should return success when both parameters are valid with outputType 'text'", () => {
-      const result = validateParameters("counter123", "text");
-      expect(result).toEqual({
-        status: true,
-        code: 200,
-        message: "OK",
-      });
-    });
-
-    test("should return success when both parameters are valid with outputType 'badge'", () => {
-      const result = validateParameters("counter123", "badge");
-      expect(result).toEqual({
-        status: true,
-        code: 200,
-        message: "OK",
-      });
-    });
-
-    test("should return success when both parameters are valid with outputType 'javascript'", () => {
-      const result = validateParameters("counter123", "javascript");
-      expect(result).toEqual({
-        status: true,
-        code: 200,
-        message: "OK",
-      });
-    });
-
-    test("should return success with special characters in counterId", () => {
-      const result = validateParameters("counter-123_abc", "text");
-      expect(result).toEqual({
-        status: true,
-        code: 200,
-        message: "OK",
-      });
-    });
-
-    test("should return success with long counterId", () => {
-      const longId = "a".repeat(1000);
-      const result = validateParameters(longId, "badge");
+    test.each([
+      ["text", "counter123", "text"],
+      ["badge", "counter123", "badge"],
+      ["javascript", "counter123", "javascript"],
+      ["special characters in counterId", "counter-123_abc", "text"],
+      ["long counterId", "a".repeat(1000), "badge"],
+    ])("should return success for %s", (_description, counterId, outputType) => {
+      const result = validateParameters(counterId, outputType);
       expect(result).toEqual({
         status: true,
         code: 200,
@@ -145,30 +68,31 @@ describe("validateParameters", () => {
   });
 
   describe("edge cases", () => {
-    test("should prioritize counterId validation over outputType validation", () => {
-      const result = validateParameters("", "");
+    test.each([
+      [
+        "prioritize counterId validation over outputType validation",
+        "",
+        "",
+        "parameter counter is not defined!",
+      ],
+      [
+        "check outputType validation when counterId is valid but outputType is empty",
+        "counter123",
+        "",
+        "parameter outputtype is not defined!",
+      ],
+      [
+        "validate outputType value after checking if it's defined",
+        "counter123",
+        "invalid",
+        "parameter outputtype is not supported! (found invalid)",
+      ],
+    ])("should %s", (_description, counterId, outputType, expectedMessage) => {
+      const result = validateParameters(counterId, outputType);
       expect(result).toEqual({
         status: false,
         code: 400,
-        message: "parameter counter is not defined!",
-      });
-    });
-
-    test("should check outputType validation when counterId is valid but outputType is empty", () => {
-      const result = validateParameters("counter123", "");
-      expect(result).toEqual({
-        status: false,
-        code: 400,
-        message: "parameter outputtype is not defined!",
-      });
-    });
-
-    test("should validate outputType value after checking if it's defined", () => {
-      const result = validateParameters("counter123", "invalid");
-      expect(result).toEqual({
-        status: false,
-        code: 400,
-        message: "parameter outputtype is not supported! (found invalid)",
+        message: expectedMessage,
       });
     });
   });
@@ -181,30 +105,23 @@ describe("validateParameters", () => {
       expect(result).toHaveProperty("message");
     });
 
-    test("should return boolean status for error cases", () => {
-      const result = validateParameters("", "text");
+    test.each([
+      ["error", "", false],
+      ["success", "counter123", true],
+    ])("should return boolean status for %s cases", (_description, counterId, expectedStatus) => {
+      const result = validateParameters(counterId, "text");
       expect(typeof result.status).toBe("boolean");
-      expect(result.status).toBe(false);
+      expect(result.status).toBe(expectedStatus);
     });
 
-    test("should return boolean status for success cases", () => {
-      const result = validateParameters("counter123", "text");
-      expect(typeof result.status).toBe("boolean");
-      expect(result.status).toBe(true);
-    });
-
-    test("should return number code for all cases", () => {
+    test.each([
+      ["code", "code", "number"],
+      ["message", "message", "string"],
+    ])("should return %s %s for all cases", (_description, property, expectedType) => {
       const errorResult = validateParameters("", "text");
       const successResult = validateParameters("counter123", "text");
-      expect(typeof errorResult.code).toBe("number");
-      expect(typeof successResult.code).toBe("number");
-    });
-
-    test("should return string message for all cases", () => {
-      const errorResult = validateParameters("", "text");
-      const successResult = validateParameters("counter123", "text");
-      expect(typeof errorResult.message).toBe("string");
-      expect(typeof successResult.message).toBe("string");
+      expect(typeof errorResult[property as keyof typeof errorResult]).toBe(expectedType);
+      expect(typeof successResult[property as keyof typeof successResult]).toBe(expectedType);
     });
   });
 });
