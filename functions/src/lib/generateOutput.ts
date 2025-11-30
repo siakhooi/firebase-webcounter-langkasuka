@@ -23,7 +23,7 @@ export function getOutput(outputType: string, count: number): string {
   else if (outputType === "badge") return createBadge(count);
   else if (outputType === "javascript") return createJavascript(count);
 
-  return "Error getOutput: invalid outputtype";
+  throw new Error(`Invalid output type: ${outputType}`);
 }
 
 export function getContentType(outputType: string): string {
@@ -31,7 +31,7 @@ export function getContentType(outputType: string): string {
   else if (outputType === "badge") return "image/svg+xml";
   else if (outputType === "javascript") return "application/javascript";
 
-  return "Error getContentType: invalid outputtype";
+  throw new Error(`Invalid output type: ${outputType}`);
 }
 
 export function geteTag(content: string) {

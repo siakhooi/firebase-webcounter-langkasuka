@@ -94,9 +94,8 @@ describe("generateOutput", () => {
         ["uppercase", "TEXT"],
         ["undefined", undefined as any],
         ["null", null as any],
-      ])("should return error message for %s output type", (_description, outputType) => {
-        const result = getOutput(outputType, 42);
-        expect(result).toBe("Error getOutput: invalid outputtype");
+      ])("should throw error for %s output type", (_description, outputType) => {
+        expect(() => getOutput(outputType, 42)).toThrow("Invalid output type");
       });
     });
   });
@@ -127,9 +126,8 @@ describe("generateOutput", () => {
         ["uppercase", "BADGE"],
         ["undefined", undefined as any],
         ["null", null as any],
-      ])("should return error message for %s output type", (_description, outputType) => {
-        const result = getContentType(outputType);
-        expect(result).toBe("Error getContentType: invalid outputtype");
+      ])("should throw error for %s output type", (_description, outputType) => {
+        expect(() => getContentType(outputType)).toThrow("Invalid output type");
       });
     });
   });

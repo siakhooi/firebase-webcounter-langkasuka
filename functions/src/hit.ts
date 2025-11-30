@@ -26,7 +26,7 @@ export const hit = onRequest(async (request: Request, response) => {
     const docId = await createLog(firestore, counterId, currentTime, request);
     const count = await getCount(counterId, currentTime, docId);
 
-    if (outputType === "text" || outputType === "badge" || outputType === "javascript") {
+    try {
       const content = getOutput(outputType, count);
       const etag = geteTag(content);
       const contentType = getContentType(outputType);
@@ -36,9 +36,11 @@ export const hit = onRequest(async (request: Request, response) => {
         .setHeader("Cache-Control", "max-age=0, no-cache, no-store, must-revalidate")
         .setHeader("etag", etag)
         .send(content);
-    } else {
-      response.status(500).end();
+
+    } catch (error) {
+      response.status(500).send(error);
     }
+
   } else {
     response.status(code).send(message);
   }

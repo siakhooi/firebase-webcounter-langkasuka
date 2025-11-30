@@ -155,6 +155,23 @@ describe("hit function", () => {
       expect(mockResponse.status).toHaveBeenCalledWith(200);
       expect(mockGetContentType).toHaveBeenCalledWith("javascript");
     });
+
+    test("should handle error when invalid output type is provided", async () => {
+      mockRequest.query = {counter: "test-counter", outputtype: "invalid"};
+      mockGet.mockResolvedValue({data: () => undefined});
+      mockSet.mockResolvedValue({});
+
+      const testError = new Error("Invalid output type: invalid");
+      mockGetOutput.mockImplementation(() => {
+        throw testError;
+      });
+
+      // Type assertion needed: mockRequest is Partial<Request> but hit() expects Request
+      await hit(mockRequest as Request, mockResponse);
+
+      expect(mockResponse.status).toHaveBeenCalledWith(500);
+      expect(mockResponse.send).toHaveBeenCalledWith(testError);
+    });
   });
 
   describe("counter management", () => {
