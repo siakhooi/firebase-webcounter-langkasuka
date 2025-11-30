@@ -62,6 +62,44 @@ jest.unstable_mockModule("firebase-functions/v2/firestore", () => ({
   onDocumentCreated: mockOnDocumentCreated,
 }));
 
+// Helper functions to reduce nesting depth
+function createMockEventData(counter: string, createAt: number): MockEventData {
+  return {counter, createAt};
+}
+
+function createMockSnapshot(counter: string, createAt: number): MockSnapshot {
+  const eventData = createMockEventData(counter, createAt);
+  return {
+    data() {
+      return eventData;
+    },
+  };
+}
+
+function createMockEvent(docId: string, counter: string, createAt: number): MockEvent {
+  return {
+    params: {docId},
+    data: createMockSnapshot(counter, createAt),
+  };
+}
+
+function createEmptyMockGetResponse() {
+  return {
+    data() {
+      return undefined;
+    },
+  };
+}
+
+function createExistingDocMockGetResponse(counter: string, count: number) {
+  const docData = {counter, count};
+  return {
+    data() {
+      return docData;
+    },
+  };
+}
+
 describe("generate-statistics", () => {
   let generateStatistics: any;
 
@@ -109,22 +147,10 @@ describe("generate-statistics", () => {
         ],
       ])("for %s", async (_description, dateString, docId, counterName, expectedKeys, expectedDocIds) => {
         // Mock Firestore to return undefined (document doesn't exist)
-        mockGet.mockResolvedValue({
-          data: () => undefined,
-        });
+        mockGet.mockResolvedValue(createEmptyMockGetResponse());
 
         const testTime = new Date(dateString).getTime();
-        const mockEvent: MockEvent = {
-          params: {
-            docId: docId,
-          },
-          data: {
-            data: () => ({
-              counter: counterName,
-              createAt: testTime,
-            }),
-          },
-        };
+        const mockEvent = createMockEvent(docId, counterName, testTime);
 
         await generateStatistics(mockEvent);
 
@@ -136,28 +162,16 @@ describe("generate-statistics", () => {
         });
 
         // Verify documents were accessed with correct IDs
-        expectedDocIds.forEach((expectedDocId) => {
-          expect(mockDoc).toHaveBeenCalledWith(expectedDocId);
-        });
+        expect(mockDoc).toHaveBeenCalledWith(expectedDocIds[0]);
+        expect(mockDoc).toHaveBeenCalledWith(expectedDocIds[1]);
+        expect(mockDoc).toHaveBeenCalledWith(expectedDocIds[2]);
       });
 
       test("should verify collections and set operations", async () => {
-        mockGet.mockResolvedValue({
-          data: () => undefined,
-        });
+        mockGet.mockResolvedValue(createEmptyMockGetResponse());
 
         const testTime = new Date("2024-06-15T10:30:00Z").getTime();
-        const mockEvent: MockEvent = {
-          params: {
-            docId: "test-doc-123",
-          },
-          data: {
-            data: () => ({
-              counter: "test-counter",
-              createAt: testTime,
-            }),
-          },
-        };
+        const mockEvent = createMockEvent("test-doc-123", "test-counter", testTime);
 
         await generateStatistics(mockEvent);
 
@@ -183,25 +197,10 @@ describe("generate-statistics", () => {
 
     test("should update existing counter documents", async () => {
       // Mock Firestore to return existing documents
-      mockGet.mockResolvedValue({
-        data: () => ({
-          counter: "test-counter",
-          count: 5,
-        }),
-      });
+      mockGet.mockResolvedValue(createExistingDocMockGetResponse("test-counter", 5));
 
       const testTime = new Date("2024-06-15T10:30:00Z").getTime();
-      const mockEvent: MockEvent = {
-        params: {
-          docId: "test-doc-456",
-        },
-        data: {
-          data: () => ({
-            counter: "test-counter",
-            createAt: testTime,
-          }),
-        },
-      };
+      const mockEvent = createMockEvent("test-doc-456", "test-counter", testTime);
 
       await generateStatistics(mockEvent);
 
@@ -268,9 +267,7 @@ describe("generate-statistics", () => {
     });
 
     test("should handle different counter names", async () => {
-      mockGet.mockResolvedValue({
-        data: () => undefined,
-      });
+      mockGet.mockResolvedValue(createEmptyMockGetResponse());
 
       const testTime = new Date("2024-03-15T12:00:00Z").getTime();
       const counterNames = ["counter-a", "counter-b", "counter-c-d-e"];
@@ -278,17 +275,7 @@ describe("generate-statistics", () => {
       for (const counterName of counterNames) {
         jest.clearAllMocks();
 
-        const mockEvent: MockEvent = {
-          params: {
-            docId: `test-doc-${counterName}`,
-          },
-          data: {
-            data: () => ({
-              counter: counterName,
-              createAt: testTime,
-            }),
-          },
-        };
+        const mockEvent = createMockEvent(`test-doc-${counterName}`, counterName, testTime);
 
         await generateStatistics(mockEvent);
 
@@ -307,9 +294,7 @@ describe("generate-statistics", () => {
     });
 
     test("should correctly format dates with moment", async () => {
-      mockGet.mockResolvedValue({
-        data: () => undefined,
-      });
+      mockGet.mockResolvedValue(createEmptyMockGetResponse());
 
       const testCases = [
         {
@@ -329,17 +314,7 @@ describe("generate-statistics", () => {
       for (const testCase of testCases) {
         jest.clearAllMocks();
 
-        const mockEvent: MockEvent = {
-          params: {
-            docId: "test-doc",
-          },
-          data: {
-            data: () => ({
-              counter: "test-counter",
-              createAt: testCase.date.getTime(),
-            }),
-          },
-        };
+        const mockEvent = createMockEvent("test-doc", "test-counter", testCase.date.getTime());
 
         await generateStatistics(mockEvent);
 
@@ -356,25 +331,10 @@ describe("generate-statistics", () => {
       for (const count of counters) {
         jest.clearAllMocks();
 
-        mockGet.mockResolvedValue({
-          data: () => ({
-            counter: "increment-test",
-            count: count,
-          }),
-        });
+        mockGet.mockResolvedValue(createExistingDocMockGetResponse("increment-test", count));
 
         const testTime = new Date("2024-06-15T10:30:00Z").getTime();
-        const mockEvent: MockEvent = {
-          params: {
-            docId: `test-doc-${count}`,
-          },
-          data: {
-            data: () => ({
-              counter: "increment-test",
-              createAt: testTime,
-            }),
-          },
-        };
+        const mockEvent = createMockEvent(`test-doc-${count}`, "increment-test", testTime);
 
         await generateStatistics(mockEvent);
 
@@ -388,22 +348,10 @@ describe("generate-statistics", () => {
     });
 
     test("should process all three collections in parallel", async () => {
-      mockGet.mockResolvedValue({
-        data: () => undefined,
-      });
+      mockGet.mockResolvedValue(createEmptyMockGetResponse());
 
       const testTime = new Date("2024-06-15T10:30:00Z").getTime();
-      const mockEvent: MockEvent = {
-        params: {
-          docId: "test-parallel",
-        },
-        data: {
-          data: () => ({
-            counter: "parallel-counter",
-            createAt: testTime,
-          }),
-        },
-      };
+      const mockEvent = createMockEvent("test-parallel", "parallel-counter", testTime);
 
       await generateStatistics(mockEvent);
 
@@ -416,22 +364,10 @@ describe("generate-statistics", () => {
     });
 
     test("should create documents with correct keys", async () => {
-      mockGet.mockResolvedValue({
-        data: () => undefined,
-      });
+      mockGet.mockResolvedValue(createEmptyMockGetResponse());
 
       const testTime = new Date("2024-06-15T10:30:00Z").getTime();
-      const mockEvent: MockEvent = {
-        params: {
-          docId: "test-keys",
-        },
-        data: {
-          data: () => ({
-            counter: "key-test",
-            createAt: testTime,
-          }),
-        },
-      };
+      const mockEvent = createMockEvent("test-keys", "key-test", testTime);
 
       await generateStatistics(mockEvent);
 
@@ -445,22 +381,10 @@ describe("generate-statistics", () => {
     });
 
     test("should include timestamps in created documents", async () => {
-      mockGet.mockResolvedValue({
-        data: () => undefined,
-      });
+      mockGet.mockResolvedValue(createEmptyMockGetResponse());
 
       const testTime = new Date("2024-06-15T10:30:00Z").getTime();
-      const mockEvent: MockEvent = {
-        params: {
-          docId: "test-timestamps",
-        },
-        data: {
-          data: () => ({
-            counter: "timestamp-test",
-            createAt: testTime,
-          }),
-        },
-      };
+      const mockEvent = createMockEvent("test-timestamps", "timestamp-test", testTime);
 
       const beforeExecution = Date.now();
       await generateStatistics(mockEvent);
@@ -485,25 +409,10 @@ describe("generate-statistics", () => {
     });
 
     test("should include timestamps in updated documents", async () => {
-      mockGet.mockResolvedValue({
-        data: () => ({
-          counter: "timestamp-test",
-          count: 5,
-        }),
-      });
+      mockGet.mockResolvedValue(createExistingDocMockGetResponse("timestamp-test", 5));
 
       const testTime = new Date("2024-06-15T10:30:00Z").getTime();
-      const mockEvent: MockEvent = {
-        params: {
-          docId: "test-update-timestamps",
-        },
-        data: {
-          data: () => ({
-            counter: "timestamp-test",
-            createAt: testTime,
-          }),
-        },
-      };
+      const mockEvent = createMockEvent("test-update-timestamps", "timestamp-test", testTime);
 
       const beforeExecution = Date.now();
       await generateStatistics(mockEvent);
