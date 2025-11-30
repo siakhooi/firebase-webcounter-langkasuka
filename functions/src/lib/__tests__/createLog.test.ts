@@ -69,7 +69,7 @@ describe("createLog", () => {
       );
 
       expect(result).toBe("log-id-456");
-      const addArgs = mockAdd.mock.calls[0][0] as any;
+      const addArgs = mockAdd.mock.calls[0][0];
       expect(addArgs.method).toBe("POST");
     });
 
@@ -88,7 +88,7 @@ describe("createLog", () => {
         );
 
         expect(result).toBe(`log-id-${counterId}`);
-        const addArgs = mockAdd.mock.calls[mockAdd.mock.calls.length - 1][0] as any;
+        const addArgs = mockAdd.mock.calls[mockAdd.mock.calls.length - 1][0];
         expect(addArgs.counter).toBe(counterId);
       }
     });
@@ -110,7 +110,7 @@ describe("createLog", () => {
         mockRequest
       );
 
-      const addArgs = mockAdd.mock.calls[0][0] as any;
+      const addArgs = mockAdd.mock.calls[0][0];
       expect(addArgs.headers).toEqual(mockRequest.headers);
     });
 
@@ -129,7 +129,7 @@ describe("createLog", () => {
         mockRequest
       );
 
-      const addArgs = mockAdd.mock.calls[0][0] as any;
+      const addArgs = mockAdd.mock.calls[0][0];
       expect(addArgs.query).toEqual(mockRequest.query);
     });
 
@@ -144,7 +144,7 @@ describe("createLog", () => {
         mockRequest
       );
 
-      const addArgs = mockAdd.mock.calls[0][0] as any;
+      const addArgs = mockAdd.mock.calls[0][0];
       expect(addArgs.url).toBe("/hit?counter=test&outputtype=text");
     });
 
@@ -161,7 +161,7 @@ describe("createLog", () => {
         testRequest
       );
 
-      const addArgs = mockAdd.mock.calls[mockAdd.mock.calls.length - 1][0] as any;
+      const addArgs = mockAdd.mock.calls[mockAdd.mock.calls.length - 1][0];
       expect(addArgs.ip).toBe("203.0.113.1");
     });
   });
@@ -177,7 +177,7 @@ describe("createLog", () => {
         mockRequest
       );
 
-      const addArgs = mockAdd.mock.calls[0][0] as any;
+      const addArgs = mockAdd.mock.calls[0][0];
       expect(addArgs.createAt).toBe(timestamp);
     });
 
@@ -192,7 +192,7 @@ describe("createLog", () => {
           mockRequest
         );
 
-        const addArgs = mockAdd.mock.calls[mockAdd.mock.calls.length - 1][0] as any;
+        const addArgs = mockAdd.mock.calls[mockAdd.mock.calls.length - 1][0];
         expect(addArgs.createAt).toBe(timestamp);
       }
     });
@@ -211,7 +211,7 @@ describe("createLog", () => {
       );
 
       expect(result).toBe("log-id");
-      const addArgs = mockAdd.mock.calls[0][0] as any;
+      const addArgs = mockAdd.mock.calls[0][0];
       expect(addArgs.counter).toBe(counterId);
     });
 
@@ -225,7 +225,7 @@ describe("createLog", () => {
         mockRequest
       );
 
-      const addArgs = mockAdd.mock.calls[0][0] as any;
+      const addArgs = mockAdd.mock.calls[0][0];
       expect(addArgs.headers).toEqual({});
     });
 
@@ -239,7 +239,7 @@ describe("createLog", () => {
         mockRequest
       );
 
-      const addArgs = mockAdd.mock.calls[0][0] as any;
+      const addArgs = mockAdd.mock.calls[0][0];
       expect(addArgs.query).toEqual({});
     });
 
@@ -255,7 +255,7 @@ describe("createLog", () => {
           mockRequest
         );
 
-        const addArgs = mockAdd.mock.calls[mockAdd.mock.calls.length - 1][0] as any;
+        const addArgs = mockAdd.mock.calls[mockAdd.mock.calls.length - 1][0];
         expect(addArgs.method).toBe(method);
       }
     });

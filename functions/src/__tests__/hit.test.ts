@@ -185,7 +185,7 @@ describe("hit function", () => {
       await hit(mockRequest as Request, mockResponse);
 
       expect(mockSet).toHaveBeenCalled();
-      const setArgs = mockSet.mock.calls[0][0] as any;
+      const setArgs = mockSet.mock.calls[0][0];
       expect(setArgs.counter).toBe("new-counter");
       expect(setArgs.count).toBe(1);
       expect(setArgs.createdBy).toBe("log-id-123");
@@ -206,7 +206,7 @@ describe("hit function", () => {
       await hit(mockRequest as Request, mockResponse);
 
       expect(mockUpdate).toHaveBeenCalled();
-      const updateArgs = mockUpdate.mock.calls[0][0] as any;
+      const updateArgs = mockUpdate.mock.calls[0][0];
       expect(updateArgs.count).toBe(43);
       expect(mockGetOutput).toHaveBeenCalledWith("text", 43);
     });
@@ -333,7 +333,7 @@ describe("hit function", () => {
       // Type assertion needed: mockRequest is Partial<Request> but hit() expects Request
       await hit(mockRequest as Request, mockResponse);
 
-      const updateArgs = mockUpdate.mock.calls[0][0] as any;
+      const updateArgs = mockUpdate.mock.calls[0][0];
       expect(updateArgs.count).toBe(1);
     });
 
@@ -351,7 +351,7 @@ describe("hit function", () => {
       // Type assertion needed: mockRequest is Partial<Request> but hit() expects Request
       await hit(mockRequest as Request, mockResponse);
 
-      const updateArgs = mockUpdate.mock.calls[0][0] as any;
+      const updateArgs = mockUpdate.mock.calls[0][0];
       expect(updateArgs.count).toBe(1000000000);
     });
   });
