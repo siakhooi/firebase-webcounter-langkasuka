@@ -81,58 +81,104 @@ describe("generate-statistics", () => {
   });
 
   describe("generateStatistics function", () => {
-    test("should create new counter documents when they don't exist", async () => {
-      // Mock Firestore to return undefined (document doesn't exist)
-      mockGet.mockResolvedValue({
-        data: () => undefined,
+    describe("should create new counter documents when they don't exist", () => {
+      test.each([
+        [
+          "standard date",
+          "2024-06-15T10:30:00Z",
+          "test-doc-123",
+          "test-counter",
+          {key1: "2024", key2: "2024-06", key3: "2024-06-15"},
+          ["test-counter-2024", "test-counter-2024-06", "test-counter-2024-06-15"],
+        ],
+        [
+          "year boundary",
+          "2024-12-31T10:30:00",
+          "test-doc-789",
+          "boundary-counter",
+          {key1: "2024", key2: "2024-12", key3: "2024-12-31"},
+          ["boundary-counter-2024", "boundary-counter-2024-12", "boundary-counter-2024-12-31"],
+        ],
+        [
+          "year start",
+          "2025-01-01T00:00:00Z",
+          "test-doc-new-year",
+          "new-year-counter",
+          {key1: "2025", key2: "2025-01", key3: "2025-01-01"},
+          ["new-year-counter-2025", "new-year-counter-2025-01", "new-year-counter-2025-01-01"],
+        ],
+      ])("for %s", async (_description, dateString, docId, counterName, expectedKeys, expectedDocIds) => {
+        // Mock Firestore to return undefined (document doesn't exist)
+        mockGet.mockResolvedValue({
+          data: () => undefined,
+        });
+
+        const testTime = new Date(dateString).getTime();
+        const mockEvent: MockEvent = {
+          params: {
+            docId: docId,
+          },
+          data: {
+            data: () => ({
+              counter: counterName,
+              createAt: testTime,
+            }),
+          },
+        };
+
+        await generateStatistics(mockEvent);
+
+        // Verify logger was called
+        expect(mockLogger.info).toHaveBeenCalledWith("generateStatistics", {
+          docId: docId,
+          counter: counterName,
+          ...expectedKeys,
+        });
+
+        // Verify documents were accessed with correct IDs
+        expectedDocIds.forEach((expectedDocId) => {
+          expect(mockDoc).toHaveBeenCalledWith(expectedDocId);
+        });
       });
 
-      const testTime = new Date("2024-06-15T10:30:00Z").getTime();
-      const mockEvent: MockEvent = {
-        params: {
-          docId: "test-doc-123",
-        },
-        data: {
-          data: () => ({
+      test("should verify collections and set operations", async () => {
+        mockGet.mockResolvedValue({
+          data: () => undefined,
+        });
+
+        const testTime = new Date("2024-06-15T10:30:00Z").getTime();
+        const mockEvent: MockEvent = {
+          params: {
+            docId: "test-doc-123",
+          },
+          data: {
+            data: () => ({
+              counter: "test-counter",
+              createAt: testTime,
+            }),
+          },
+        };
+
+        await generateStatistics(mockEvent);
+
+        // Verify collections were accessed
+        expect(mockCollection).toHaveBeenCalledWith("counter-by-year");
+        expect(mockCollection).toHaveBeenCalledWith("counter-by-year-month");
+        expect(mockCollection).toHaveBeenCalledWith("counter-by-year-month-date");
+
+        // Verify set was called 3 times (once for each collection)
+        expect(mockSet).toHaveBeenCalledTimes(3);
+
+        // Verify set was called with correct data structure
+        expect(mockSet).toHaveBeenCalledWith(
+          expect.objectContaining({
             counter: "test-counter",
-            createAt: testTime,
-          }),
-        },
-      };
-
-      await generateStatistics(mockEvent);
-
-      // Verify logger was called
-      expect(mockLogger.info).toHaveBeenCalledWith("generateStatistics", {
-        docId: "test-doc-123",
-        counter: "test-counter",
-        key1: "2024",
-        key2: "2024-06",
-        key3: "2024-06-15",
+            count: 1,
+            createdBy: "test-doc-123",
+            modifiedBy: "test-doc-123",
+          })
+        );
       });
-
-      // Verify collections were accessed
-      expect(mockCollection).toHaveBeenCalledWith("counter-by-year");
-      expect(mockCollection).toHaveBeenCalledWith("counter-by-year-month");
-      expect(mockCollection).toHaveBeenCalledWith("counter-by-year-month-date");
-
-      // Verify documents were accessed with correct IDs
-      expect(mockDoc).toHaveBeenCalledWith("test-counter-2024");
-      expect(mockDoc).toHaveBeenCalledWith("test-counter-2024-06");
-      expect(mockDoc).toHaveBeenCalledWith("test-counter-2024-06-15");
-
-      // Verify set was called 3 times (once for each collection)
-      expect(mockSet).toHaveBeenCalledTimes(3);
-
-      // Verify set was called with correct data structure
-      expect(mockSet).toHaveBeenCalledWith(
-        expect.objectContaining({
-          counter: "test-counter",
-          count: 1,
-          createdBy: "test-doc-123",
-          modifiedBy: "test-doc-123",
-        })
-      );
     });
 
     test("should update existing counter documents", async () => {
@@ -181,69 +227,6 @@ describe("generate-statistics", () => {
 
       // Verify set was NOT called (since documents already exist)
       expect(mockSet).not.toHaveBeenCalled();
-    });
-
-    test("should handle edge case with year boundary", async () => {
-      mockGet.mockResolvedValue({
-        data: () => undefined,
-      });
-
-      // Use local time to avoid timezone issues
-      const testTime = new Date("2024-12-31T10:30:00").getTime();
-      const mockEvent: MockEvent = {
-        params: {
-          docId: "test-doc-789",
-        },
-        data: {
-          data: () => ({
-            counter: "boundary-counter",
-            createAt: testTime,
-          }),
-        },
-      };
-
-      await generateStatistics(mockEvent);
-
-      expect(mockLogger.info).toHaveBeenCalledWith("generateStatistics", {
-        docId: "test-doc-789",
-        counter: "boundary-counter",
-        key1: "2024",
-        key2: "2024-12",
-        key3: "2024-12-31",
-      });
-
-      expect(mockDoc).toHaveBeenCalledWith("boundary-counter-2024");
-      expect(mockDoc).toHaveBeenCalledWith("boundary-counter-2024-12");
-      expect(mockDoc).toHaveBeenCalledWith("boundary-counter-2024-12-31");
-    });
-
-    test("should handle edge case with year start", async () => {
-      mockGet.mockResolvedValue({
-        data: () => undefined,
-      });
-
-      const testTime = new Date("2025-01-01T00:00:00Z").getTime();
-      const mockEvent: MockEvent = {
-        params: {
-          docId: "test-doc-new-year",
-        },
-        data: {
-          data: () => ({
-            counter: "new-year-counter",
-            createAt: testTime,
-          }),
-        },
-      };
-
-      await generateStatistics(mockEvent);
-
-      expect(mockLogger.info).toHaveBeenCalledWith("generateStatistics", {
-        docId: "test-doc-new-year",
-        counter: "new-year-counter",
-        key1: "2025",
-        key2: "2025-01",
-        key3: "2025-01-01",
-      });
     });
 
     test("should handle undefined snapshot gracefully", async () => {
