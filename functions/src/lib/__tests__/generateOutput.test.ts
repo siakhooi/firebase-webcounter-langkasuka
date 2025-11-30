@@ -87,6 +87,10 @@ describe("generateOutput", () => {
     });
 
     describe("invalid output type", () => {
+      const testInvalidOutputType = (outputType: string) => {
+        return () => getOutput(outputType, 42);
+      };
+
       test.each([
         ["json", "json"],
         ["empty string", ""],
@@ -95,7 +99,7 @@ describe("generateOutput", () => {
         ["undefined", undefined as any],
         ["null", null as any],
       ])("should throw error for %s output type", (_description, outputType) => {
-        expect(() => getOutput(outputType, 42)).toThrow("Invalid output type");
+        expect(testInvalidOutputType(outputType)).toThrow("Invalid output type");
       });
     });
   });
@@ -119,6 +123,10 @@ describe("generateOutput", () => {
     });
 
     describe("invalid content types", () => {
+      const testInvalidContentType = (outputType: string) => {
+        return () => getContentType(outputType);
+      };
+
       test.each([
         ["json", "json"],
         ["empty string", ""],
@@ -127,7 +135,7 @@ describe("generateOutput", () => {
         ["undefined", undefined as any],
         ["null", null as any],
       ])("should throw error for %s output type", (_description, outputType) => {
-        expect(() => getContentType(outputType)).toThrow("Invalid output type");
+        expect(testInvalidContentType(outputType)).toThrow("Invalid output type");
       });
     });
   });
