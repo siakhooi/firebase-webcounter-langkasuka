@@ -4,10 +4,10 @@ import {Firestore} from "firebase-admin/firestore";
 import {
   FIREBASE_PROJECT_ID,
   FIREBASE_COLLECTION_COUNTER_ALL_TIME,
-  FIREBASE_COLLECTION_HIT_LOG,
 } from "./web-counter-config.js";
 import {getOutput, geteTag, getContentType} from "./lib/generateOutput.js";
 import {validateParameters} from "./lib/validateParameters.js";
+import {createLog} from "./lib/createLog.js";
 
 const firestore = new Firestore({
   projectId: FIREBASE_PROJECT_ID,
@@ -23,7 +23,7 @@ export const hit = onRequest(async (request: Request, response) => {
 
   if (status) {
     const currentTime = Date.now();
-    const docId = await createLog(counterId, currentTime, request);
+    const docId = await createLog(firestore, counterId, currentTime, request);
     const count = await getCount(counterId, currentTime, docId);
 
     if (outputType === "text" || outputType === "badge" || outputType === "javascript") {
@@ -68,16 +68,3 @@ async function getCount(counterId: string, currentTime: number, docId: string) {
   return count;
 }
 
-async function createLog(counterId: string, currentTime: number, request: Request) {
-  const COLLECTION_LOG = FIREBASE_COLLECTION_HIT_LOG;
-  const docRef = await firestore.collection(COLLECTION_LOG).add({
-    counter: counterId,
-    createAt: currentTime,
-    headers: request.headers,
-    method: request.method,
-    query: request.query,
-    url: request.originalUrl,
-    ip: request.ip,
-  });
-  return docRef.id;
-}
