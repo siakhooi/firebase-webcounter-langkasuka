@@ -87,33 +87,15 @@ describe("generateOutput", () => {
     });
 
     describe("invalid output type", () => {
-      test("should return error message for invalid output type", () => {
-        const result = getOutput("json", 42);
-        expect(result).toBe("Error getOutput: invalid outputtype");
-      });
-
-      test("should return error message for empty string output type", () => {
-        const result = getOutput("", 42);
-        expect(result).toBe("Error getOutput: invalid outputtype");
-      });
-
-      test("should return error message for xml output type", () => {
-        const result = getOutput("xml", 42);
-        expect(result).toBe("Error getOutput: invalid outputtype");
-      });
-
-      test("should return error message for uppercase output type", () => {
-        const result = getOutput("TEXT", 42);
-        expect(result).toBe("Error getOutput: invalid outputtype");
-      });
-
-      test("should return error message for undefined output type", () => {
-        const result = getOutput(undefined as any, 42);
-        expect(result).toBe("Error getOutput: invalid outputtype");
-      });
-
-      test("should return error message for null output type", () => {
-        const result = getOutput(null as any, 42);
+      test.each([
+        ["json", "json"],
+        ["empty string", ""],
+        ["xml", "xml"],
+        ["uppercase", "TEXT"],
+        ["undefined", undefined as any],
+        ["null", null as any],
+      ])("should return error message for %s output type", (_description, outputType) => {
+        const result = getOutput(outputType, 42);
         expect(result).toBe("Error getOutput: invalid outputtype");
       });
     });
@@ -138,33 +120,15 @@ describe("generateOutput", () => {
     });
 
     describe("invalid content types", () => {
-      test("should return error message for invalid output type", () => {
-        const result = getContentType("json");
-        expect(result).toBe("Error getContentType: invalid outputtype");
-      });
-
-      test("should return error message for empty string output type", () => {
-        const result = getContentType("");
-        expect(result).toBe("Error getContentType: invalid outputtype");
-      });
-
-      test("should return error message for xml output type", () => {
-        const result = getContentType("xml");
-        expect(result).toBe("Error getContentType: invalid outputtype");
-      });
-
-      test("should return error message for uppercase output type", () => {
-        const result = getContentType("BADGE");
-        expect(result).toBe("Error getContentType: invalid outputtype");
-      });
-
-      test("should return error message for undefined output type", () => {
-        const result = getContentType(undefined as any);
-        expect(result).toBe("Error getContentType: invalid outputtype");
-      });
-
-      test("should return error message for null output type", () => {
-        const result = getContentType(null as any);
+      test.each([
+        ["json", "json"],
+        ["empty string", ""],
+        ["xml", "xml"],
+        ["uppercase", "BADGE"],
+        ["undefined", undefined as any],
+        ["null", null as any],
+      ])("should return error message for %s output type", (_description, outputType) => {
+        const result = getContentType(outputType);
         expect(result).toBe("Error getContentType: invalid outputtype");
       });
     });
