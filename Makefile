@@ -28,6 +28,7 @@ npm-out:
 	cd functions && npm outdated
 npm-up:
 	cd functions && npm update
-
+commit:
+	.github/bin/git-commit-and-push.sh
 release:
 	.github/bin/create-release.sh
