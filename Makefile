@@ -8,6 +8,8 @@ npm-lint:
 	cd functions && npm run lint
 npm-build:
 	cd functions && npm run build
+npm-up:
+	cd functions && npm up
 all: npm-install npm-lint npm-test npm-build
 
 build:
