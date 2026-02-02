@@ -1,7 +1,8 @@
-# firebase-webcounter-langkasuka
+# webcounter
 
 Web Counter using Firebase Firestore and Cloud Functions.
 
+This Web Counter is named Langkasuka.
 Langkasuka was an ancient Malay Hindu-Buddhist kingdom located in the Malay Peninsula. Langkasuka means, Land with Happiness.
 
 ## Features
@@ -94,23 +95,23 @@ var LANGKASUKA_WEBCOUNTER = { count: nnn };
 ## Quality
 
 - https://sonarcloud.io/project/overview?id=siakhooi_firebase-webcounter-langkasuka
-- https://qlty.sh/gh/siakhooi/projects/firebase-webcounter-langkasuka
+- https://qlty.sh/gh/siakhooi/projects/webcounter
 
 ## Badges
 
-![GitHub](https://img.shields.io/github/license/siakhooi/firebase-webcounter-langkasuka?logo=github)
-![GitHub last commit](https://img.shields.io/github/last-commit/siakhooi/firebase-webcounter-langkasuka?logo=github)
-![GitHub top language](https://img.shields.io/github/languages/top/siakhooi/firebase-webcounter-langkasuka?logo=github)
-![GitHub language count](https://img.shields.io/github/languages/count/siakhooi/firebase-webcounter-langkasuka?logo=github)
-![Lines of code](https://img.shields.io/tokei/lines/github/siakhooi/firebase-webcounter-langkasuka?logo=github)
-![GitHub repo size](https://img.shields.io/github/repo-size/siakhooi/firebase-webcounter-langkasuka?logo=github)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/siakhooi/firebase-webcounter-langkasuka?logo=github)
+![GitHub](https://img.shields.io/github/license/siakhooi/webcounter?logo=github)
+![GitHub last commit](https://img.shields.io/github/last-commit/siakhooi/webcounter?logo=github)
+![GitHub top language](https://img.shields.io/github/languages/top/siakhooi/webcounter?logo=github)
+![GitHub language count](https://img.shields.io/github/languages/count/siakhooi/webcounter?logo=github)
+![Lines of code](https://img.shields.io/tokei/lines/github/siakhooi/webcounter?logo=github)
+![GitHub repo size](https://img.shields.io/github/repo-size/siakhooi/webcounter?logo=github)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/siakhooi/webcounter?logo=github)
 ![Workflow](https://img.shields.io/badge/Workflow-github-purple)
-![workflow](https://github.com/siakhooi/firebase-webcounter-langkasuka/actions/workflows/deploy-firebase.yaml/badge.svg)
+![workflow](https://github.com/siakhooi/webcounter/actions/workflows/deploy-firebase.yaml/badge.svg)
 
 ![Quality-Qlty](https://img.shields.io/badge/Quality-Qlty-purple)
-[![Maintainability](https://qlty.sh/gh/siakhooi/projects/firebase-webcounter-langkasuka/maintainability.svg)](https://qlty.sh/gh/siakhooi/projects/firebase-webcounter-langkasuka)
-[![Code Coverage](https://qlty.sh/gh/siakhooi/projects/firebase-webcounter-langkasuka/coverage.svg)](https://qlty.sh/gh/siakhooi/projects/firebase-webcounter-langkasuka)
+[![Maintainability](https://qlty.sh/gh/siakhooi/projects/webcounter/maintainability.svg)](https://qlty.sh/gh/siakhooi/projects/webcounter
+[![Code Coverage](https://qlty.sh/gh/siakhooi/projects/webcounter/coverage.svg)](https://qlty.sh/gh/siakhooi/projects/webcounter
 
 ![Quality-Sonar](https://img.shields.io/badge/Quality-SonarCloud-purple)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=siakhooi_firebase-webcounter-langkasuka&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=siakhooi_firebase-webcounter-langkasuka)
